@@ -50,30 +50,30 @@ import "./output.css";
 import { useState } from "react";
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  }
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
 
-  const onLoginButtonClick = () => {
-    console.log("Login button clicked!");
-  }
-  
-  return (
-    <div>
-      <Router>
-        <Header onLoginButtonClick={onLoginButtonClick}/>
-        <Routes>
-          <Route path="/Home" element={<Home />} />
-          <Route path="/TeleRadio" element={<TeleRadio />} />
-          <Route path="/OurStory" element={<OurStory />} />
-          <Route path="/Archives" element={<Archives />} />
-        </Routes>
-      </Router>
-      <Footer />
-    </div>
-  );
+    const onLoginButtonClick = () => {
+        console.log("Login button clicked!");
+    };
+
+    return (
+        <div>
+            <Router>
+                <Header />
+                <Routes>
+                    <Route path="/Home" element={<Home />} />
+                    <Route path="/TeleRadio" element={<TeleRadio />} />
+                    <Route path="/OurStory" element={<OurStory />} />
+                    <Route path="/Archives" element={<Archives />} />
+                </Routes>
+            </Router>
+            <Footer />
+        </div>
+    );
 }
 
 export default App;
