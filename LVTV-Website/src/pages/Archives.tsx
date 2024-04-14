@@ -1,5 +1,3 @@
-import Header from "../components/Header";
-
 function Archives() {
   let items = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
