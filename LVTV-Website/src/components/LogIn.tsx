@@ -5,6 +5,41 @@ interface LoginModalProps {
     onClose: () => void;
 }
 
+const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setEmailError("");
+    setPasswordError("");
+
+    const data = {
+        email: email,
+        password: password,
+    };
+
+    try {
+        const response = await axiosClient.post("/login", data);
+
+        if (response) {
+            setUser(response.data.user);
+            setToken(response.data.token);
+
+            setEmail("");
+            setPassword("");
+            setShowPass(false);
+
+            if (response.data.user.user_type === "0") {
+                navigate("/home");
+            } else if (response.data.user.user_type === "1") {
+                navigate("/admin/dashboard");
+            }
+        }
+    } catch (error) {
+        console.log(error.response.data);
+        setEmailError(error.response.data.errors.email);
+        setPasswordError(error.response.data.errors.password);
+    }
+};
+
 const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
     const [modalVisible, setModalVisible] = useState(isOpen);
 
