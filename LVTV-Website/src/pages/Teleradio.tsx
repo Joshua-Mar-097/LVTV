@@ -19,54 +19,18 @@ const TeleRadio = () => {
                         <h1>TeleRadio</h1>
                     </div>
                     <div className="">
-                        {/* <div
-                            className="video-container flex justify-center"
+                        <div
+                            className="flex justify-center p-10 bg-white"
                             onClick={openOwncastPage}
                         >
-                            <div className="video-overlay">
-                                <div className="video-wrapper bg-white">
-                                    <iframe
-                                        src="http://localhost:8080/embed/video"
-                                        width={640}
-                                        height={360}
-                                        frameBorder={0}
-                                        scrolling="no"
-                                    >
-                                        <div
-                                            className="video-container flex justify-center w-100 h-100 hover:"
-                                            onClick={openOwncastPage}
-                                        ></div>
-                                    </iframe>
-                                </div>
-                            </div>
-                        </div> */}
-
-                        <div className="flex justify-center">
-                            <div
-                                className="relative"
-                                onClick={openOwncastPage}
-                                style={{ cursor: "pointer" }}
-                            >
+                            <div className="relative w-full h-full">
                                 <iframe
-                                    src="http://localhost:8080/embed/video"
-                                    width={640}
-                                    height={360}
+                                    src="http://localhost:3000/embed/video"
+                                    width="854"
+                                    height="480"
                                     frameBorder={0}
                                     scrolling="no"
-                                ></iframe>
-                                <div className="absolute inset-0 bg-transparent"></div>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-center p-10">
-                            <div className="border-none shadow-md rounded-lg overflow-hidden bg-white mx-auto">
-                                <iframe
-                                    src="http://localhost:8080/embed/video"
-                                    width={640}
-                                    height={360}
-                                    frameBorder={0}
-                                    scrolling="no"
-                                    onClick={openOwncastPage}
+                                    className="absolute top-0 left-0 w-full"
                                 ></iframe>
                             </div>
                         </div>
