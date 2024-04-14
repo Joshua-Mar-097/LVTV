@@ -1,47 +1,19 @@
 import React, { useState, useEffect } from "react";
+import axiosClient from "../api/axiosClient";
+import { navigate } from "@reach/router";
 
 interface LoginModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const handleLogin = async (e) => {
-    e.preventDefault();
-
-    setEmailError("");
-    setPasswordError("");
-
-    const data = {
-        email: email,
-        password: password,
-    };
-
-    try {
-        const response = await axiosClient.post("/login", data);
-
-        if (response) {
-            setUser(response.data.user);
-            setToken(response.data.token);
-
-            setEmail("");
-            setPassword("");
-            setShowPass(false);
-
-            if (response.data.user.user_type === "0") {
-                navigate("/home");
-            } else if (response.data.user.user_type === "1") {
-                navigate("/admin/dashboard");
-            }
-        }
-    } catch (error) {
-        console.log(error.response.data);
-        setEmailError(error.response.data.errors.email);
-        setPasswordError(error.response.data.errors.password);
-    }
-};
-
-const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
-    const [modalVisible, setModalVisible] = useState(isOpen);
+const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
+    const [modalVisible, setModalVisible] = useState<boolean>(isOpen);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [emailError, setEmailError] = useState<string>("");
+    const [passwordError, setPasswordError] = useState<string>("");
+    const [showPass, setShowPass] = useState<boolean>(false);
 
     useEffect(() => {
         setModalVisible(isOpen);
@@ -50,6 +22,42 @@ const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
     const handleCloseModal = () => {
         setModalVisible(false);
         onClose();
+    };
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        setEmailError("");
+        setPasswordError("");
+
+        const data = {
+            email: email,
+            password: password,
+        };
+
+        try {
+            const response = await axiosClient.post("/login", data);
+
+            if (response) {
+                // Assuming setUser and setToken are defined elsewhere
+                // setUser(response.data.user);
+                // setToken(response.data.token);
+
+                setEmail("");
+                setPassword("");
+                setShowPass(false);
+
+                if (response.data.user.user_type === "0") {
+                    navigate("/home");
+                } else if (response.data.user.user_type === "1") {
+                    navigate("/admin/dashboard");
+                }
+            }
+        } catch (error: any) {  // Explicitly type the error object
+            console.log(error.response?.data);  // Access response data if available
+            setEmailError(error.response?.data?.errors?.email);  // Use optional chaining
+            setPasswordError(error.response?.data?.errors?.password);  // Use optional chaining
+        }
     };
 
     return (
@@ -117,6 +125,7 @@ const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
                                         <form
                                             className="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
                                             action="#"
+                                            onSubmit={handleLogin}
                                         >
                                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                                                 Sign in to our platform
@@ -145,14 +154,32 @@ const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
                                                 >
                                                     Your password
                                                 </label>
-                                                <input
-                                                    type="password"
+                                                {/* <input
+                                                    type={showPass ? "text" : "password"}
                                                     name="password"
                                                     id="password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
                                                     placeholder="••••••••"
                                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                     required
                                                 />
+                                                <button onClick={() => setShowPass(!showPass)}>
+                                                    {showPass ? "Hide Password" : "Show Password"}
+                                                </button> */}
+                                                <input
+                                                    type={showPass ? "text" : "password"}
+                                                    name="password"
+                                                    id="password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required
+                                                />
+                                                <button onClick={() => setShowPass(!showPass)}>
+                                                    {showPass ? "Hide Password" : "Show Password"}
+                                                </button>
                                             </div>
                                             {/* Remember me checkbox and Lost Password link */}
                                             <div className="flex justify-between">
@@ -220,6 +247,12 @@ const LogIn = ({ isOpen, onClose }: LoginModalProps) => {
                     </div>
                 </div>
             </div>
+            {emailError && (
+                <div className="error-message">{emailError}</div>
+            )}
+            {passwordError && (
+                <div className="error-message">{passwordError}</div>
+            )}
         </div>
     );
 };
