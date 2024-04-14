@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
-import { navigate } from "@reach/router";
+// import { navigate } from "@reach/router";
 
 interface LoginModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
-
 const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const [modalVisible, setModalVisible] = useState<boolean>(isOpen);
     const [email, setEmail] = useState<string>("");
@@ -47,16 +46,17 @@ const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 setPassword("");
                 setShowPass(false);
 
-                if (response.data.user.user_type === "0") {
-                    navigate("/home");
-                } else if (response.data.user.user_type === "1") {
-                    navigate("/admin/dashboard");
-                }
+                // if (response.data.user.user_type === "0") {
+                //     navigate("/home");
+                // } else if (response.data.user.user_type === "1") {
+                //     navigate("/admin/dashboard");
+                // }
             }
-        } catch (error: any) {  // Explicitly type the error object
-            console.log(error.response?.data);  // Access response data if available
-            setEmailError(error.response?.data?.errors?.email);  // Use optional chaining
-            setPasswordError(error.response?.data?.errors?.password);  // Use optional chaining
+        } catch (error: any) {
+            // Explicitly type the error object
+            console.log(error.response?.data); // Access response data if available
+            setEmailError(error.response?.data?.errors?.email); // Use optional chaining
+            setPasswordError(error.response?.data?.errors?.password); // Use optional chaining
         }
     };
 
@@ -168,17 +168,31 @@ const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                                                     {showPass ? "Hide Password" : "Show Password"}
                                                 </button> */}
                                                 <input
-                                                    type={showPass ? "text" : "password"}
+                                                    type={
+                                                        showPass
+                                                            ? "text"
+                                                            : "password"
+                                                    }
                                                     name="password"
                                                     id="password"
                                                     value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    onChange={(e) =>
+                                                        setPassword(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     placeholder="••••••••"
                                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                     required
                                                 />
-                                                <button onClick={() => setShowPass(!showPass)}>
-                                                    {showPass ? "Hide Password" : "Show Password"}
+                                                <button
+                                                    onClick={() =>
+                                                        setShowPass(!showPass)
+                                                    }
+                                                >
+                                                    {showPass
+                                                        ? "Hide Password"
+                                                        : "Show Password"}
                                                 </button>
                                             </div>
                                             {/* Remember me checkbox and Lost Password link */}
@@ -247,9 +261,7 @@ const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                     </div>
                 </div>
             </div>
-            {emailError && (
-                <div className="error-message">{emailError}</div>
-            )}
+            {emailError && <div className="error-message">{emailError}</div>}
             {passwordError && (
                 <div className="error-message">{passwordError}</div>
             )}
