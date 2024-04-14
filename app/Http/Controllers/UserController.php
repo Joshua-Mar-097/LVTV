@@ -52,7 +52,7 @@ class UserController extends Controller
             throw ValidationException::withMessages(['email' => 'Your account is not approved. Please contact the admin for assistance.']);
         }
 
-        $token = $user->createToken('main')->plainTextToken;
+        // $token = $user->createToken('main')->plainTextToken;
 
         return response(compact('user', 'token'));
     }
