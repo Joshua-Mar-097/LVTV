@@ -7,6 +7,17 @@ interface LoginModalProps {
     onClose: () => void;
 }
 
+fetch('http://localhost:8000/proxy/code?id=7gBmdr805JL2&type=1')
+    .then((response: Response) => response.json())
+    .then((data: any) => {
+        console.log(data);
+        // Handle the response data
+    })
+    .catch((error: any) => {
+        console.error('Error:', error);
+        // Handle errors
+    });
+
 const LogIn: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const [modalVisible, setModalVisible] = useState<boolean>(isOpen);
     const [email, setEmail] = useState<string>("");
